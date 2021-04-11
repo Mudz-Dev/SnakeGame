@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 2598682413025792499}
   - component: {fileID: 1992269121477709603}
   - component: {fileID: 2188773334976794493}
-  - component: {fileID: 6773651287108554816}
+  - component: {fileID: 3158944908335013106}
+  - component: {fileID: 1040894300}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f97f3ba56916854f958d3ffaf1e4340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   previousPostion: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
   speed: 2
@@ -146,8 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousPosition: {fileID: 0}
---- !u!65 &6773651287108554816
-BoxCollider:
+--- !u!135 &3158944908335013106
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,5 +159,18 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.67, z: 0.72}
-  m_Center: {x: 0.61, y: 0, z: 0}
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &1040894300
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992269121477709605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}

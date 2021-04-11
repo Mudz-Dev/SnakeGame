@@ -8,6 +8,10 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
 
+    public enum States {  idle,moving,eating}
+
+    public States currentState;
+
     public Transform previousPostion;
     public Vector3 direction = Vector3.zero;
     public float speed = 2;
@@ -23,6 +27,7 @@ public class Player : MonoBehaviour
         Time.timeScale = 1f;
         controller = GetComponent<PlayerController>();
         score = 0;
+        currentState = States.idle;
     }
 
     // Update is called once per frame
@@ -50,6 +55,8 @@ public class Player : MonoBehaviour
             direction = new Vector3(-1, 0, 0);
         }
 
+        if (currentState == States.idle && direction != Vector3.zero) currentState = States.moving;
+
         controller.Move(direction * speed);
 
         if(Input.GetKeyUp(KeyCode.E))
@@ -69,7 +76,10 @@ public class Player : MonoBehaviour
                 break;
             case "Body":
                 //OnDeath();
-                //StartCoroutine("Die");
+                //if (currentState != States.eating)
+                //{
+                //    StartCoroutine("Die");
+                //}
                 break;
             case "Obstacle":
 
@@ -79,20 +89,24 @@ public class Player : MonoBehaviour
 
     void EatFood(GameObject foodObject)
     {
+        currentState = States.eating;
         Food f = foodObject.GetComponent<Food>();
         Transform lastBodySpawnPos = controller.GetLastBodySpawnPos();
         f.Eat(lastBodySpawnPos.position);
         score += 1;
         controller.AddBody(controller.startingBody);
+        currentState = States.moving;
     }
 
     IEnumerator Die()
     {
+
         print("Player Died");
         print(Time.timeScale);
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(0.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
     }
 
 

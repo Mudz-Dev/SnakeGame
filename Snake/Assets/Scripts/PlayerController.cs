@@ -26,10 +26,11 @@ public class PlayerController : MonoBehaviour
     public void AddBody(Body bodyToSpawn) {
 
         Body b;
-        b = Instantiate(bodyToSpawn, Vector3.zero, player.transform.rotation) as Body;
-    
+        b = Instantiate(bodyToSpawn, player.transform.position, player.transform.rotation) as Body;
+        
         b.followT = GetLastBodySpawnPos();
         b.player = player;
+        if (bodyParts.Count > 0) b.isFirstBody = false;
         bodyParts.Add(b);
     }
 
@@ -43,9 +44,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Update() {
-        //rb.MovePosition(rb.position + velocity * Time.deltaTime);
-        transform.Translate(velocity * player.speed * Time.smoothDeltaTime, Space.World);
-        transform.rotation = Quaternion.LookRotation(velocity);
+        if (player.currentState != Player.States.idle)
+        {
+            transform.Translate(velocity * player.speed * Time.smoothDeltaTime, Space.World);
+            transform.rotation = Quaternion.LookRotation(velocity);
+        }
     }
 
 }

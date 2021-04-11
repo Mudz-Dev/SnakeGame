@@ -10,24 +10,64 @@ public class BodyController : MonoBehaviour
     float dis;
     float minDistance = 0.50f;
     Rigidbody rb;
+    float myCollisionRadius;
+    float targetCollisionRadius;
 
     void Start() {
         body = GetComponent<Body>();
         rb = GetComponent<Rigidbody>();
+        myCollisionRadius = GetComponent<SphereCollider>().radius;
+        targetCollisionRadius = body.followT.GetComponent<SphereCollider>().radius;
     }
 
 
     public void Move(Transform moveToPosition) {
+
+        transform.rotation = moveToPosition.rotation;
         dis = Vector3.Distance(transform.position, moveToPosition.position);
 
-        Vector3 newPosition = moveToPosition.position;
+        //dis = (moveToPosition.position - transform.position).sqrMagnitude;
+
+        Vector3 dirToTarget = (moveToPosition.position - transform.position).normalized;
+
+        Vector3 newPosition = moveToPosition.position - dirToTarget * myCollisionRadius * 2;
         newPosition.y = body.player.transform.position.y;
         float T = Time.deltaTime * dis / minDistance * body.player.speed;
 
         if (T > 0.5f) T = 0.5f;
-        transform.position = Vector3.Slerp(transform.position, newPosition, T);
-        transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
 
+        StartCoroutine(MoveBodyLerp(newPosition, T));
+        //transform.position = Vector3.Slerp(transform.position, newPosition, T);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
+
+    }
+
+    IEnumerator MoveBodyLerp(Vector3 targetPosition, float duration)
+    {
+        float time = 0;
+        Vector3 startPosition = transform.position;
+
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = targetPosition;
+    }
+
+    IEnumerator RotateBodyLerp(Quaternion endValue, float duration)
+    {
+        float time = 0;
+        Quaternion startValue = transform.rotation;
+
+        while (time < duration)
+        {
+            transform.rotation = Quaternion.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.rotation = endValue;
     }
 
 }
