@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public void AddBody(Body bodyToSpawn) {
 
         Body b;
-        b = Instantiate(bodyToSpawn, player.transform.position, player.transform.rotation) as Body;
+        b = Instantiate(bodyToSpawn, Vector3.zero, player.transform.rotation) as Body;
     
         b.followT = GetLastBodySpawnPos();
         b.player = player;

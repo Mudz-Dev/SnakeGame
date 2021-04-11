@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BodySpawnPos))]
 [RequireComponent(typeof(PlayerController))]
@@ -14,10 +15,12 @@ public class Player : MonoBehaviour
     public int score;
     PlayerController controller;
 
+    public event System.Action OnDeath;
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         controller = GetComponent<PlayerController>();
         score = 0;
     }
@@ -65,17 +68,13 @@ public class Player : MonoBehaviour
                 EatFood(other.gameObject);
                 break;
             case "Body":
-
+                //OnDeath();
+                //StartCoroutine("Die");
                 break;
             case "Obstacle":
 
                 break;
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-
     }
 
     void EatFood(GameObject foodObject)
@@ -85,6 +84,15 @@ public class Player : MonoBehaviour
         f.Eat(lastBodySpawnPos.position);
         score += 1;
         controller.AddBody(controller.startingBody);
+    }
+
+    IEnumerator Die()
+    {
+        print("Player Died");
+        print(Time.timeScale);
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(0.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
