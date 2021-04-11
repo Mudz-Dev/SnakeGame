@@ -9,6 +9,8 @@ public class Food : MonoBehaviour
     float scaleModifier = 1;
     public float rotateSpeed = 50f;
 
+    public event System.Action OnEat;
+
     void Update()
     {
         transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);
@@ -16,6 +18,7 @@ public class Food : MonoBehaviour
 
     public void Eat(Vector3 moveLocation)
     {
+        OnEat();
         StartCoroutine(EatPositionLerp(moveLocation, timeToLerp));
         StartCoroutine(EatScaleLerp(targetScale, timeToLerp));
     }
