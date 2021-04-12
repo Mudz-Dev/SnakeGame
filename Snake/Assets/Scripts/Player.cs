@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
                 //}
                 break;
             case "Obstacle":
-
+                StartCoroutine("Die");
                 break;
         }
     }

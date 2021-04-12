@@ -22,23 +22,20 @@ public class BodyController : MonoBehaviour
 
 
     public void Move(Transform moveToPosition) {
-
-        transform.rotation = moveToPosition.rotation;
+       
         dis = Vector3.Distance(transform.position, moveToPosition.position);
-
-        //dis = (moveToPosition.position - transform.position).sqrMagnitude;
 
         Vector3 dirToTarget = (moveToPosition.position - transform.position).normalized;
 
-        Vector3 newPosition = moveToPosition.position - dirToTarget * myCollisionRadius * 2;
+        Vector3 newPosition = moveToPosition.position;
         newPosition.y = body.player.transform.position.y;
-        float T = Time.deltaTime * dis / minDistance * body.player.speed;
+        float T = Time.deltaTime * dis / myCollisionRadius * body.player.speed;
 
         if (T > 0.5f) T = 0.5f;
 
-        StartCoroutine(MoveBodyLerp(newPosition, T));
-        //transform.position = Vector3.Slerp(transform.position, newPosition, T);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
+        //StartCoroutine(MoveBodyLerp(newPosition, T));
+        transform.position = Vector3.Slerp(transform.position, newPosition, T);
+        transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
 
     }
 
