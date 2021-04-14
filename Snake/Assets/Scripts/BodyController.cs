@@ -33,34 +33,35 @@ public class BodyController : MonoBehaviour
 
         if (T > 0.5f) T = 0.5f;
 
-        //StartCoroutine(MoveBodyLerp(newPosition, T));
+        //StartCoroutine(MoveBodySlerp(newPosition, T));
+        //StartCoroutine(RotateBodySlerp(moveToPosition.rotation, T));
         transform.position = Vector3.Slerp(transform.position, newPosition, T);
         transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
 
     }
 
-    IEnumerator MoveBodyLerp(Vector3 targetPosition, float duration)
+    IEnumerator MoveBodySlerp(Vector3 targetPosition, float duration)
     {
         float time = 0;
         Vector3 startPosition = transform.position;
 
         while (time < duration)
         {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+            transform.position = Vector3.Slerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
         transform.position = targetPosition;
     }
 
-    IEnumerator RotateBodyLerp(Quaternion endValue, float duration)
+    IEnumerator RotateBodySlerp(Quaternion endValue, float duration)
     {
         float time = 0;
         Quaternion startValue = transform.rotation;
 
         while (time < duration)
         {
-            transform.rotation = Quaternion.Lerp(startValue, endValue, time / duration);
+            transform.rotation = Quaternion.Slerp(startValue, endValue, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
