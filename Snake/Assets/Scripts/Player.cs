@@ -76,10 +76,7 @@ public class Player : MonoBehaviour
                 break;
             case "Body":
                 //OnDeath();
-                //if (currentState != States.eating)
-                //{
-                //    StartCoroutine("Die");
-                //}
+                StartCoroutine("Die");
                 break;
             case "Obstacle":
                 StartCoroutine("Die");

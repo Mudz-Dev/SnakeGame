@@ -7,15 +7,17 @@ public class PlayerController : MonoBehaviour
 {
     public Body startingBody;
     Vector3 velocity;
-    Rigidbody rb;
+
     Player player;
     List<Body> bodyParts;
+    SphereCollider sc;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         player = GetComponent<Player>();
         bodyParts = new List<Body>();
+        sc = GetComponent<SphereCollider>();
+        
     }
 
 
@@ -25,12 +27,14 @@ public class PlayerController : MonoBehaviour
 
     public void AddBody(Body bodyToSpawn) {
 
+        Transform lastBodyPos = GetLastBodySpawnPos();
+        Vector3 spawnPosition = lastBodyPos.position  + (-player.transform.forward * 2);
         Body b;
-        b = Instantiate(bodyToSpawn, player.transform.position, player.transform.rotation) as Body;
+        b = Instantiate(bodyToSpawn, spawnPosition, player.transform.rotation) as Body;
         
-        b.followT = GetLastBodySpawnPos();
+        b.followT = lastBodyPos;
         b.player = player;
-        if (bodyParts.Count > 0) b.isFirstBody = false;
+        if (bodyParts.Count < 3) b.tag = "Neck";
         bodyParts.Add(b);
     }
 
