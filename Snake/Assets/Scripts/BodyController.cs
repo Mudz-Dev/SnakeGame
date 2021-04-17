@@ -29,7 +29,7 @@ public class BodyController : MonoBehaviour
 
         Vector3 newPosition = moveToPosition.position;
         newPosition.y = body.player.transform.position.y;
-        float T = Time.deltaTime * dis / myCollisionRadius * body.player.speed;
+        float T = Time.deltaTime * dis / minDistance * body.player.speed;
 
         if (T > 0.5f) T = 0.5f;
 

@@ -16,8 +16,10 @@ public class Player : MonoBehaviour
     public Vector3 direction = Vector3.zero;
     public float speed = 2;
     public Transform followT;
+    public bool isEating;
     public int score;
     PlayerController controller;
+    SphereCollider sc;
 
     public event System.Action OnDeath;
 
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour
         controller = GetComponent<PlayerController>();
         score = 0;
         currentState = States.idle;
+        sc = GetComponent<SphereCollider>();
+        isEating = false;
     }
 
     // Update is called once per frame
@@ -72,7 +76,7 @@ public class Player : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Food":
-                EatFood(other.gameObject);
+                if(!isEating) StartCoroutine(EatFood(other.gameObject));
                 break;
             case "Body":
                 //OnDeath();
@@ -84,8 +88,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void EatFood(GameObject foodObject)
+    IEnumerator EatFood(GameObject foodObject)
     {
+        isEating = true;
+        IncreaseSpeed();
         currentState = States.eating;
         Food f = foodObject.GetComponent<Food>();
         Transform lastBodySpawnPos = controller.GetLastBodySpawnPos();
@@ -93,6 +99,8 @@ public class Player : MonoBehaviour
         score += 1;
         controller.AddBody(controller.startingBody);
         currentState = States.moving;
+        yield return new WaitForSeconds(0.25f);        
+        isEating = false;       
     }
 
     IEnumerator Die()
@@ -104,6 +112,11 @@ public class Player : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+    }
+
+    void IncreaseSpeed() {
+        speed += 0.1f;
+        speed = Mathf.Clamp(speed, 2, 3);
     }
 
 

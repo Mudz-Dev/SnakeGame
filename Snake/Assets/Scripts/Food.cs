@@ -6,10 +6,15 @@ public class Food : MonoBehaviour
 {
     public float targetScale;
     public float timeToLerp = 0.25f;
-    float scaleModifier = 1;
     public float rotateSpeed = 50f;
+    float scaleModifier = 1;
+    SphereCollider sc;
 
     public event System.Action OnEat;
+
+    void Start() {
+       sc = GetComponent<SphereCollider>(); 
+    }
 
     void Update()
     {
