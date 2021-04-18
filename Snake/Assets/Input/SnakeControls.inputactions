@@ -2,7 +2,7 @@
     "name": "SnakeControls",
     "maps": [
         {
-            "name": "PlayerControl",
+            "name": "PlayerControls",
             "id": "289f0b33-2ec5-4f56-be4c-b0b83a9f8cc4",
             "actions": [
                 {
@@ -45,7 +45,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveUp",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -56,7 +56,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveUp",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -67,7 +67,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveDown",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -78,7 +78,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveDown",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -89,7 +89,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -100,7 +100,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -111,7 +111,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveRight",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -122,8 +122,35 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard and Mouse",
                     "action": "MoveRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DebugControls",
+            "id": "dec86818-b272-4064-bd06-5ca10d058ee7",
+            "actions": [
+                {
+                    "name": "AddBody",
+                    "type": "Button",
+                    "id": "740d7149-d449-41c9-abf3-acb10d3dabd6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "05eb2d3d-2275-4898-b7df-fda6b9194a0d",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "AddBody",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -132,11 +159,16 @@
     ],
     "controlSchemes": [
         {
-            "name": "Keyboard",
-            "bindingGroup": "Keyboard",
+            "name": "Keyboard and Mouse",
+            "bindingGroup": "Keyboard and Mouse",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

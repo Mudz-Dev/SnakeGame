@@ -19,24 +19,28 @@ public class PlayerController : MonoBehaviour
     {
         player = GetComponent<Player>();
         bodyParts = new List<Body>();
-        sc = GetComponent<SphereCollider>();
-        
+        sc = GetComponent<SphereCollider>();        
     }
 
     void Awake() {
         controls = new SnakeControls();
+        controls.PlayerControls.MoveUp.performed += x => {if(player.direction.z != -1) player.direction = Vector3.forward;};
+        controls.PlayerControls.MoveDown.performed += x => {if(player.direction.z != 1) player.direction = Vector3.back;};
+        controls.PlayerControls.MoveRight.performed += x => {if(player.direction.x != -1) player.direction = Vector3.right;};
+        controls.PlayerControls.MoveLeft.performed += x => {if(player.direction.x != 1) player.direction = Vector3.left;};
 
+        controls.DebugControls.AddBody.performed += x => {AddBody(startingBody);};
     }
 
     void OnEnable() {
-    controls.PlayerControl.Enable();
+        controls.Enable();
     }
     void OnDisable() {
-    controls.PlayerControl.Disable();
+        controls.Disable();
     }
 
-    void OnMoveUp(InputValue value) {
-        print("Move Up");
+    void MoveUp() {
+        
     }
 
     public void Move(Vector3 v) {
@@ -66,6 +70,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void Update() {
+
+
         if (player.currentState != Player.States.idle)
         {
             transform.Translate(velocity * player.speed * Time.smoothDeltaTime, Space.World);

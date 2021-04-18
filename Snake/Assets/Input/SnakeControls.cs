@@ -15,7 +15,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
     ""name"": ""SnakeControls"",
     ""maps"": [
         {
-            ""name"": ""PlayerControl"",
+            ""name"": ""PlayerControls"",
             ""id"": ""289f0b33-2ec5-4f56-be4c-b0b83a9f8cc4"",
             ""actions"": [
                 {
@@ -58,7 +58,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -69,7 +69,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -80,7 +80,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -91,7 +91,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -102,7 +102,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -113,7 +113,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -124,7 +124,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -135,8 +135,35 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""DebugControls"",
+            ""id"": ""dec86818-b272-4064-bd06-5ca10d058ee7"",
+            ""actions"": [
+                {
+                    ""name"": ""AddBody"",
+                    ""type"": ""Button"",
+                    ""id"": ""740d7149-d449-41c9-abf3-acb10d3dabd6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""05eb2d3d-2275-4898-b7df-fda6b9194a0d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""AddBody"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -145,11 +172,16 @@ public class @SnakeControls : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""Keyboard"",
-            ""bindingGroup"": ""Keyboard"",
+            ""name"": ""Keyboard and Mouse"",
+            ""bindingGroup"": ""Keyboard and Mouse"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -168,12 +200,15 @@ public class @SnakeControls : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // PlayerControl
-        m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
-        m_PlayerControl_MoveUp = m_PlayerControl.FindAction("MoveUp", throwIfNotFound: true);
-        m_PlayerControl_MoveDown = m_PlayerControl.FindAction("MoveDown", throwIfNotFound: true);
-        m_PlayerControl_MoveLeft = m_PlayerControl.FindAction("MoveLeft", throwIfNotFound: true);
-        m_PlayerControl_MoveRight = m_PlayerControl.FindAction("MoveRight", throwIfNotFound: true);
+        // PlayerControls
+        m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
+        m_PlayerControls_MoveUp = m_PlayerControls.FindAction("MoveUp", throwIfNotFound: true);
+        m_PlayerControls_MoveDown = m_PlayerControls.FindAction("MoveDown", throwIfNotFound: true);
+        m_PlayerControls_MoveLeft = m_PlayerControls.FindAction("MoveLeft", throwIfNotFound: true);
+        m_PlayerControls_MoveRight = m_PlayerControls.FindAction("MoveRight", throwIfNotFound: true);
+        // DebugControls
+        m_DebugControls = asset.FindActionMap("DebugControls", throwIfNotFound: true);
+        m_DebugControls_AddBody = m_DebugControls.FindAction("AddBody", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -220,44 +255,44 @@ public class @SnakeControls : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // PlayerControl
-    private readonly InputActionMap m_PlayerControl;
-    private IPlayerControlActions m_PlayerControlActionsCallbackInterface;
-    private readonly InputAction m_PlayerControl_MoveUp;
-    private readonly InputAction m_PlayerControl_MoveDown;
-    private readonly InputAction m_PlayerControl_MoveLeft;
-    private readonly InputAction m_PlayerControl_MoveRight;
-    public struct PlayerControlActions
+    // PlayerControls
+    private readonly InputActionMap m_PlayerControls;
+    private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
+    private readonly InputAction m_PlayerControls_MoveUp;
+    private readonly InputAction m_PlayerControls_MoveDown;
+    private readonly InputAction m_PlayerControls_MoveLeft;
+    private readonly InputAction m_PlayerControls_MoveRight;
+    public struct PlayerControlsActions
     {
         private @SnakeControls m_Wrapper;
-        public PlayerControlActions(@SnakeControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MoveUp => m_Wrapper.m_PlayerControl_MoveUp;
-        public InputAction @MoveDown => m_Wrapper.m_PlayerControl_MoveDown;
-        public InputAction @MoveLeft => m_Wrapper.m_PlayerControl_MoveLeft;
-        public InputAction @MoveRight => m_Wrapper.m_PlayerControl_MoveRight;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerControl; }
+        public PlayerControlsActions(@SnakeControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveUp => m_Wrapper.m_PlayerControls_MoveUp;
+        public InputAction @MoveDown => m_Wrapper.m_PlayerControls_MoveDown;
+        public InputAction @MoveLeft => m_Wrapper.m_PlayerControls_MoveLeft;
+        public InputAction @MoveRight => m_Wrapper.m_PlayerControls_MoveRight;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerControlActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerControlActions instance)
+        public static implicit operator InputActionMap(PlayerControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerControlsActions instance)
         {
-            if (m_Wrapper.m_PlayerControlActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerControlsActionsCallbackInterface != null)
             {
-                @MoveUp.started -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveUp;
-                @MoveUp.performed -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveUp;
-                @MoveUp.canceled -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveUp;
-                @MoveDown.started -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveDown;
-                @MoveDown.performed -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveDown;
-                @MoveDown.canceled -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveDown;
-                @MoveLeft.started -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveLeft;
-                @MoveLeft.performed -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveLeft;
-                @MoveLeft.canceled -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveLeft;
-                @MoveRight.started -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveRight;
-                @MoveRight.performed -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveRight;
-                @MoveRight.canceled -= m_Wrapper.m_PlayerControlActionsCallbackInterface.OnMoveRight;
+                @MoveUp.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveUp;
+                @MoveUp.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveUp;
+                @MoveUp.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveUp;
+                @MoveDown.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveDown;
+                @MoveDown.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveDown;
+                @MoveDown.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveDown;
+                @MoveLeft.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveLeft;
+                @MoveLeft.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveLeft;
+                @MoveLeft.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveLeft;
+                @MoveRight.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveRight;
+                @MoveRight.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveRight;
+                @MoveRight.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMoveRight;
             }
-            m_Wrapper.m_PlayerControlActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @MoveUp.started += instance.OnMoveUp;
@@ -275,14 +310,47 @@ public class @SnakeControls : IInputActionCollection, IDisposable
             }
         }
     }
-    public PlayerControlActions @PlayerControl => new PlayerControlActions(this);
-    private int m_KeyboardSchemeIndex = -1;
-    public InputControlScheme KeyboardScheme
+    public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
+
+    // DebugControls
+    private readonly InputActionMap m_DebugControls;
+    private IDebugControlsActions m_DebugControlsActionsCallbackInterface;
+    private readonly InputAction m_DebugControls_AddBody;
+    public struct DebugControlsActions
+    {
+        private @SnakeControls m_Wrapper;
+        public DebugControlsActions(@SnakeControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AddBody => m_Wrapper.m_DebugControls_AddBody;
+        public InputActionMap Get() { return m_Wrapper.m_DebugControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DebugControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IDebugControlsActions instance)
+        {
+            if (m_Wrapper.m_DebugControlsActionsCallbackInterface != null)
+            {
+                @AddBody.started -= m_Wrapper.m_DebugControlsActionsCallbackInterface.OnAddBody;
+                @AddBody.performed -= m_Wrapper.m_DebugControlsActionsCallbackInterface.OnAddBody;
+                @AddBody.canceled -= m_Wrapper.m_DebugControlsActionsCallbackInterface.OnAddBody;
+            }
+            m_Wrapper.m_DebugControlsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @AddBody.started += instance.OnAddBody;
+                @AddBody.performed += instance.OnAddBody;
+                @AddBody.canceled += instance.OnAddBody;
+            }
+        }
+    }
+    public DebugControlsActions @DebugControls => new DebugControlsActions(this);
+    private int m_KeyboardandMouseSchemeIndex = -1;
+    public InputControlScheme KeyboardandMouseScheme
     {
         get
         {
-            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
-            return asset.controlSchemes[m_KeyboardSchemeIndex];
+            if (m_KeyboardandMouseSchemeIndex == -1) m_KeyboardandMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard and Mouse");
+            return asset.controlSchemes[m_KeyboardandMouseSchemeIndex];
         }
     }
     private int m_GamepadSchemeIndex = -1;
@@ -294,11 +362,15 @@ public class @SnakeControls : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
-    public interface IPlayerControlActions
+    public interface IPlayerControlsActions
     {
         void OnMoveUp(InputAction.CallbackContext context);
         void OnMoveDown(InputAction.CallbackContext context);
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
+    }
+    public interface IDebugControlsActions
+    {
+        void OnAddBody(InputAction.CallbackContext context);
     }
 }

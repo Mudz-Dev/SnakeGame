@@ -22,7 +22,7 @@ public class BodyController : MonoBehaviour
 
 
     public void Move(Transform moveToPosition) {
-       
+       if(body != null) {
         dis = Vector3.Distance(transform.position, moveToPosition.position);
 
         Vector3 dirToTarget = (moveToPosition.position - transform.position).normalized;
@@ -37,7 +37,7 @@ public class BodyController : MonoBehaviour
         //StartCoroutine(RotateBodySlerp(moveToPosition.rotation, T));
         transform.position = Vector3.Slerp(transform.position, newPosition, T);
         transform.rotation = Quaternion.Slerp(transform.rotation, moveToPosition.rotation, T);
-
+       }
     }
 
     IEnumerator MoveBodySlerp(Vector3 targetPosition, float duration)
