@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 [RequireComponent(typeof(BodySpawnPos))]
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
@@ -39,34 +40,13 @@ public class Player : MonoBehaviour
     {
         
         //Movement Input
-        if(Input.GetKey(KeyCode.W) && direction.z != -1)
-        {
-            direction = new Vector3(0, 0, 1);
-        }
 
-        if (Input.GetKey(KeyCode.S) && direction.z != 1)
-        {
-            direction = new Vector3(0, 0, -1);
-        }
-
-        if (Input.GetKey(KeyCode.D) && direction.x != -1)
-        {
-            direction = new Vector3(1, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.A) && direction.x != 1)
-        {
-            direction = new Vector3(-1, 0, 0);
-        }
 
         if (currentState == States.idle && direction != Vector3.zero) currentState = States.moving;
 
         controller.Move(direction * speed);
 
-        if(Input.GetKeyUp(KeyCode.E))
-        {
-            controller.AddBody(controller.startingBody);
-        }
+
 
 
     }

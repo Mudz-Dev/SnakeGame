@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -11,6 +13,7 @@ public class PlayerController : MonoBehaviour
     Player player;
     List<Body> bodyParts;
     SphereCollider sc;
+    SnakeControls controls;
 
     void Start()
     {
@@ -20,6 +23,21 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    void Awake() {
+        controls = new SnakeControls();
+
+    }
+
+    void OnEnable() {
+    controls.PlayerControl.Enable();
+    }
+    void OnDisable() {
+    controls.PlayerControl.Disable();
+    }
+
+    void OnMoveUp(InputValue value) {
+        print("Move Up");
+    }
 
     public void Move(Vector3 v) {
         velocity = v;
