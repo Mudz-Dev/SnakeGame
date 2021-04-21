@@ -23,7 +23,7 @@ public class Food : MonoBehaviour
 
     public void Eat(Vector3 moveLocation)
     {
-        OnEat();
+        //OnEat();
         StartCoroutine(EatPositionLerp(moveLocation, timeToLerp));
         StartCoroutine(EatScaleLerp(targetScale, timeToLerp));
     }

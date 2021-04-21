@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
         currentState = States.eating;
         Food f = foodObject.GetComponent<Food>();
         Transform lastBodySpawnPos = controller.GetLastBodySpawnPos();
+
         f.Eat(lastBodySpawnPos.position);
         score += 1;
         controller.AddBody(controller.startingBody);
