@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MapGenerator : MonoBehaviour
 {
 
     public Transform tilePrefab;
     public Transform obstaclePrefab;
-    public Transform foodPrefab;
+    public Food foodPrefab;
     public Vector2 mapSize;
     
     public List<Coord> allTileCoords;
@@ -16,13 +17,15 @@ public class MapGenerator : MonoBehaviour
     bool[,] foodMap;
     Coord mapCentre;
 
+    public float timeBetweenSpawns;
+    int numberOfActiveFood;
+    float nextSpawnTime;
+
     [Range(0,1)]
     public float outlinePercentage;
 
     [Range(0, 10)]
     public int foodSpawnAmount = 3;
-
-    public int seed = 1;
 
     private void Start() {
         GenerateMap();
@@ -43,7 +46,13 @@ public class MapGenerator : MonoBehaviour
 
         if(transform.Find(holderName))
         {
-            DestroyImmediate(transform.Find(holderName).gameObject);
+            if(Application.isEditor) {
+                DestroyImmediate(transform.Find(holderName).gameObject);
+            }
+            else {
+                Destroy(transform.Find(holderName).gameObject);
+            }
+            
         }
         
         Transform mapHolder = new GameObject(holderName).transform;
@@ -72,7 +81,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        SpawnFood();
+       if(numberOfActiveFood == 0)  StartCoroutine(SpawnFood());
 
     }
 
@@ -97,7 +106,7 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    public void SpawnFood() {
+    public IEnumerator SpawnFood() {
         foodMap = new bool[(int)mapSize.x,(int)mapSize.y];
 
         string holderName = "Spawned Food";
@@ -109,18 +118,42 @@ public class MapGenerator : MonoBehaviour
         
         Transform foodHolder = new GameObject(holderName).transform;
         foodHolder.parent = transform;
-
+        numberOfActiveFood = 0;
+        int seed = UnityEngine.Random.Range(1, 100);
         shuffledTileCoords = new Queue<Coord>(Utility.ShuffleArray<Coord>(GetAvailableTileCoords().ToArray(), seed));
         for(int i = 0; i < foodSpawnAmount; i++) {
                 Coord randomCoord = shuffledTileCoords.Dequeue();
 
                 Vector3 foodPosition = CoordToPosition(randomCoord.x, randomCoord.y);
-                Transform newFood = Instantiate(foodPrefab, foodPosition  + Vector3.up * 0.5f, Quaternion.identity) as Transform;
-                newFood.parent = foodHolder;
-                foodMap[randomCoord.x, randomCoord.y] = true;
+                Food newFood = Instantiate(foodPrefab, foodPosition  + Vector3.up * 0.5f, Quaternion.identity) as Food;
+                newFood.transform.parent = foodHolder;
 
+                Food newFoodScript = newFood.GetComponent<Food>();
+                newFoodScript.OnEat = OnFoodEat;
+
+                foodMap[randomCoord.x, randomCoord.y] = true;
+                numberOfActiveFood++;
                 shuffledTileCoords.Enqueue(randomCoord);
+                yield return new WaitForSeconds(timeBetweenSpawns);
         }
+
+    }
+
+        void OnFoodEat()
+        {
+            print("Food Eaten");
+            numberOfActiveFood--;
+
+            if(numberOfActiveFood == 0)
+            {
+              StartCoroutine(SpawnFood());
+            }
+        }
+
+    void Update() {
+        
+
+
     }
 
     public Coord GetRandomFoodCoord() {

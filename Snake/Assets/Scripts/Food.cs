@@ -10,7 +10,7 @@ public class Food : MonoBehaviour
     float scaleModifier = 1;
     SphereCollider sc;
 
-    public event System.Action OnEat;
+    public System.Action OnEat;
 
     void Start() {
        sc = GetComponent<SphereCollider>(); 
@@ -23,7 +23,7 @@ public class Food : MonoBehaviour
 
     public void Eat(Vector3 moveLocation)
     {
-        //OnEat();
+        OnEat();
         StartCoroutine(EatPositionLerp(moveLocation, timeToLerp));
         StartCoroutine(EatScaleLerp(targetScale, timeToLerp));
     }
