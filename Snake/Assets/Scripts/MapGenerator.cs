@@ -29,6 +29,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Start() {
         GenerateMap();
+        StartCoroutine(SpawnFood());
     }
 
     public void GenerateMap() {
@@ -46,13 +47,7 @@ public class MapGenerator : MonoBehaviour
 
         if(transform.Find(holderName))
         {
-            if(Application.isEditor) {
-                DestroyImmediate(transform.Find(holderName).gameObject);
-            }
-            else {
-                Destroy(transform.Find(holderName).gameObject);
-            }
-            
+            DestroyImmediate(transform.Find(holderName).gameObject);            
         }
         
         Transform mapHolder = new GameObject(holderName).transform;
@@ -80,8 +75,6 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-
-       if(numberOfActiveFood == 0)  StartCoroutine(SpawnFood());
 
     }
 
@@ -113,7 +106,7 @@ public class MapGenerator : MonoBehaviour
 
         if(transform.Find(holderName))
         {
-            DestroyImmediate(transform.Find(holderName).gameObject);
+            Destroy(transform.Find(holderName).gameObject);
         }
         
         Transform foodHolder = new GameObject(holderName).transform;
@@ -139,16 +132,16 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-        void OnFoodEat()
-        {
-            print("Food Eaten");
-            numberOfActiveFood--;
+    void OnFoodEat()
+    {
+        print("Food Eaten");
+        numberOfActiveFood--;
 
-            if(numberOfActiveFood == 0)
-            {
-              StartCoroutine(SpawnFood());
-            }
+        if(numberOfActiveFood == 0)
+        {
+            StartCoroutine(SpawnFood());
         }
+    }
 
     void Update() {
         
