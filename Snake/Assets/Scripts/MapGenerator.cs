@@ -171,6 +171,7 @@ public class MapGenerator : MonoBehaviour
         public static bool operator !=(Coord c1, Coord c2) {
             return !(c1 == c2);
         }
+        
     }
 
 }
