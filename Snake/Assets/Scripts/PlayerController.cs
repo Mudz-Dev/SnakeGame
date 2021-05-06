@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         controls.PlayerControls.MoveRight.performed += x => {if(player.direction.x != -1) player.direction = Vector3.right;};
         controls.PlayerControls.MoveLeft.performed += x => {if(player.direction.x != 1) player.direction = Vector3.left;};
 
-controls.PlayerControls.PauseGame.performed += x => {if(Time.timeScale == 1) { Time.timeScale = 0;} else { Time.timeScale = 1;}};
+        
 
         controls.DebugControls.AddBody.performed += x => {AddBody(startingBody);};
     }
@@ -41,8 +41,13 @@ controls.PlayerControls.PauseGame.performed += x => {if(Time.timeScale == 1) { T
         controls.Disable();
     }
 
-    void MoveUp() {
-        
+    void TogglePause() {
+        if(Time.timeScale == 1) { 
+            Time.timeScale = 0;
+        } 
+        else { 
+            Time.timeScale = 1;
+        }
     }
 
     public void Move(Vector3 v) {
