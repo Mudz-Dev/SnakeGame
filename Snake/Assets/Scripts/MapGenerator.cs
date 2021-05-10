@@ -6,16 +6,16 @@ using System;
 public class MapGenerator : MonoBehaviour
 {
 
+    public Map[] maps;
+    public int mapIndex;
     public Transform tilePrefab;
     public Transform obstaclePrefab;
     public Food foodPrefab;
-    public Vector2 mapSize;
     
     public List<Coord> allTileCoords;
     Queue<Coord> shuffledTileCoords;
     bool[,] obstacleMap;
     bool[,] foodMap;
-    Coord mapCentre;
 
     public float timeBetweenSpawns;
     int numberOfActiveFood;
@@ -27,21 +27,22 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 10)]
     public int foodSpawnAmount = 3;
 
+    Map currentMap;
+
     private void Start() {
         GenerateMap();
         StartCoroutine(SpawnFood());
     }
 
     public void GenerateMap() {
-
+        currentMap = maps[mapIndex];
+        
         allTileCoords = new List<Coord>();
-        for(int x = 0; x < mapSize.x; x++) {
-            for(int y = 0; y < mapSize.y; y++) {
+        for(int x = 0; x < currentMap.mapSize.x; x++) {
+            for(int y = 0; y < currentMap.mapSize.y; y++) {
                 allTileCoords.Add(new Coord(x, y));
             }
         }
-
-        mapCentre = new Coord((int)mapSize.x/2, (int)mapSize.y/2);
 
         string holderName = "Generated Map";
 
@@ -53,8 +54,8 @@ public class MapGenerator : MonoBehaviour
         Transform mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        for(int x = 0; x < mapSize.x; x++) {
-            for(int y = 0; y < mapSize.y; y++) {
+        for(int x = 0; x < currentMap.mapSize.x; x++) {
+            for(int y = 0; y < currentMap.mapSize.y; y++) {
                 Vector3 tilePosition = CoordToPosition(x, y);
                 Transform newTile = Instantiate(tilePrefab, tilePosition, Quaternion.Euler(Vector3.one * 90));
                 newTile.localScale = Vector3.one * (1-outlinePercentage);
@@ -63,11 +64,11 @@ public class MapGenerator : MonoBehaviour
         }
 
         //Spawn Obstacles
-        obstacleMap = new bool[(int)mapSize.x,(int)mapSize.y];
+        obstacleMap = new bool[(int)currentMap.mapSize.x,(int)currentMap.mapSize.y];
 
-        for(int x = 0; x < mapSize.x; x++) {
-            for(int y = 0; y < mapSize.y; y++) {
-                if((x == 0 || x == mapSize.x - 1) || (y == 0 || y == mapSize.y - 1) && !obstacleMap[x, y])  {
+        for(int x = 0; x < currentMap.mapSize.x; x++) {
+            for(int y = 0; y < currentMap.mapSize.y; y++) {
+                if((x == 0 || x == currentMap.mapSize.x - 1) || (y == 0 || y == currentMap.mapSize.y - 1) && !obstacleMap[x, y])  {
                     Vector3 obstaclePosition = CoordToPosition(x, y);
                     Transform newObstacle = Instantiate(obstaclePrefab, obstaclePosition  + Vector3.up * 0.5f, Quaternion.identity) as Transform;
                     newObstacle.parent = mapHolder;
@@ -79,16 +80,16 @@ public class MapGenerator : MonoBehaviour
     }
 
     Vector3 CoordToPosition(int x, int y) {
-        return new Vector3(-mapSize.x/2 + 0.5f + x, 0, -mapSize.y/2 + 0.5f + y);
+        return new Vector3(-currentMap.mapSize.x/2 + 0.5f + x, 0, -currentMap.mapSize.y/2 + 0.5f + y);
     }
 
     public List<Coord> GetAvailableTileCoords() {
         List<Coord> availableCoords = new List<Coord>();
 
-        for(int x = 0; x < mapSize.x; x++) {
-            for(int y = 0; y < mapSize.y; y++) {
+        for(int x = 0; x < currentMap.mapSize.x; x++) {
+            for(int y = 0; y < currentMap.mapSize.y; y++) {
                 Coord availableCoord = new Coord(x, y);
-                if(!obstacleMap[x,y] && !foodMap[x,y] && mapCentre != availableCoord) {
+                if(!obstacleMap[x,y] && !foodMap[x,y] && currentMap.mapCentre != availableCoord) {
                     availableCoords.Add(availableCoord);
                 }
 
@@ -100,7 +101,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     public IEnumerator SpawnFood() {
-        foodMap = new bool[(int)mapSize.x,(int)mapSize.y];
+        foodMap = new bool[(int)currentMap.mapSize.x,(int)currentMap.mapSize.y];
 
         string holderName = "Spawned Food";
 
@@ -155,6 +156,7 @@ public class MapGenerator : MonoBehaviour
         return randomCoord;
     }
 
+    [System.Serializable]
     public struct Coord {
         public int x;
         public int y;
@@ -172,6 +174,24 @@ public class MapGenerator : MonoBehaviour
             return !(c1 == c2);
         }
         
+    }
+
+    [System.Serializable]
+    public class Map {
+
+        public Coord mapSize;
+        [Range(0, 1)]
+        public float obstaclePercent;
+        public int seed;
+        public Color foregroundColour;
+        public Color backgroundColour;
+
+        public Coord mapCentre {
+            get {
+                return new Coord(mapSize.x/2, mapSize.y/2);
+            }
+        }
+
     }
 
 }
