@@ -22,8 +22,6 @@ public class Player : MonoBehaviour
     PlayerController controller;
     SphereCollider sc;
 
-    public event System.Action OnDeath;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -59,10 +57,11 @@ public class Player : MonoBehaviour
                 if(!isEating) StartCoroutine(EatFood(other.gameObject));
                 break;
             case "Body":
-                //OnDeath();
+                speed = 0f;
                 StartCoroutine("Die");
                 break;
             case "Obstacle":
+                speed = 0f;
                 StartCoroutine("Die");
                 break;
         }
