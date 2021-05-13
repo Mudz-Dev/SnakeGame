@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+
 [CustomEditor(typeof(MapGenerator))]
 public class MapEditor : Editor
 {
@@ -17,7 +18,6 @@ public class MapEditor : Editor
         if(GUILayout.Button("Generate Map")) {
             map.GenerateMap();
         }
-
     }
 
 }
