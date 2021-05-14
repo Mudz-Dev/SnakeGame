@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    public enum FoodTypes {
+        Normal = 0,
+        SuperFood = 1
+    }
+
+    public FoodTypes foodType;
+    public int points {
+        get {
+            switch(foodType) {
+                case FoodTypes.Normal:
+                    return 1;
+                case FoodTypes.SuperFood:
+                    return 5;
+                default:
+                    return 0;
+            }
+        }
+    }
+    
     public float targetScale;
     public float timeToLerp = 0.25f;
     public float rotateSpeed = 50f;

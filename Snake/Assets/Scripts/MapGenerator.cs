@@ -18,7 +18,9 @@ public class MapGenerator : MonoBehaviour
     bool[,] foodMap;
 
     public float timeBetweenSpawns;
+    public float timeBetweenSuperFoodSpawns;
     int numberOfActiveFood;
+    int numberOfActiveSuperFood;
     float nextSpawnTime;
 
     [Range(0,1)]
@@ -31,7 +33,8 @@ public class MapGenerator : MonoBehaviour
 
     private void Start() {
         GenerateMap();
-        StartCoroutine(SpawnFood());
+        StartCoroutine(SpawnFood(Food.FoodTypes.Normal, foodSpawnAmount));
+        StartCoroutine(SpawnFood(Food.FoodTypes.SuperFood, 1));
     }
 
     public void GenerateMap() {
@@ -100,7 +103,7 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    public IEnumerator SpawnFood() {
+    public IEnumerator SpawnFood(Food.FoodTypes foodType, int spawnAmount) {
         foodMap = new bool[(int)currentMap.mapSize.x,(int)currentMap.mapSize.y];
 
         string holderName = "Spawned Food";
@@ -113,20 +116,29 @@ public class MapGenerator : MonoBehaviour
         Transform foodHolder = new GameObject(holderName).transform;
         foodHolder.parent = transform;
         numberOfActiveFood = 0;
+        numberOfActiveSuperFood = 0;
         int seed = UnityEngine.Random.Range(1, 100);
         shuffledTileCoords = new Queue<Coord>(Utility.ShuffleArray<Coord>(GetAvailableTileCoords().ToArray(), seed));
-        for(int i = 0; i < foodSpawnAmount; i++) {
+        for(int i = 0; i < spawnAmount; i++) {
                 Coord randomCoord = shuffledTileCoords.Dequeue();
 
                 Vector3 foodPosition = CoordToPosition(randomCoord.x, randomCoord.y);
                 Food newFood = Instantiate(foodPrefab, foodPosition  + Vector3.up * 0.5f, Quaternion.identity) as Food;
+                newFood.foodType = foodType;
                 newFood.transform.parent = foodHolder;
 
                 Food newFoodScript = newFood.GetComponent<Food>();
                 newFoodScript.OnEat = OnFoodEat;
 
                 foodMap[randomCoord.x, randomCoord.y] = true;
-                numberOfActiveFood++;
+
+                if(foodType == Food.FoodTypes.Normal) {
+                    numberOfActiveFood++;
+                }
+                else {
+                    numberOfActiveSuperFood++;
+                }
+                
                 shuffledTileCoords.Enqueue(randomCoord);
                 yield return new WaitForSeconds(timeBetweenSpawns);
         }
@@ -140,7 +152,7 @@ public class MapGenerator : MonoBehaviour
 
         if(numberOfActiveFood == 0)
         {
-            StartCoroutine(SpawnFood());
+            StartCoroutine(SpawnFood(Food.FoodTypes.Normal, foodSpawnAmount));
         }
     }
 
@@ -173,6 +185,13 @@ public class MapGenerator : MonoBehaviour
         public static bool operator !=(Coord c1, Coord c2) {
             return !(c1 == c2);
         }
+        public static bool Equals(Coord c1, Coord c2)
+        {
+
+            // TODO: write your implementation of Equals() here
+            throw new System.NotImplementedException();
+
+        }  
         
     }
 

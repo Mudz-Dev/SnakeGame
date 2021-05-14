@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         Transform lastBodySpawnPos = controller.GetLastBodySpawnPos();
 
         f.Eat(lastBodySpawnPos.position);
-        score += 1;
+        score += f.points;
         controller.AddBody(controller.startingBody);
         currentState = States.moving;
         yield return new WaitForSeconds(0.25f);        
