@@ -30,6 +30,7 @@ public class Food : MonoBehaviour
     SphereCollider sc;
 
     public System.Action OnEat;
+    public System.Action OnSuperFoodEat;
 
     void Start() {
        sc = GetComponent<SphereCollider>(); 
@@ -42,7 +43,13 @@ public class Food : MonoBehaviour
 
     public void Eat(Vector3 moveLocation)
     {
-        OnEat();
+        if(foodType == FoodTypes.Normal) {
+            OnEat();
+        }
+        else {
+            OnSuperFoodEat();
+        }
+        
         StartCoroutine(EatPositionLerp(moveLocation, timeToLerp));
         StartCoroutine(EatScaleLerp(targetScale, timeToLerp));
     }
