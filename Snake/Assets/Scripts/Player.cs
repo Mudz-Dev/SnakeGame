@@ -19,6 +19,16 @@ public class Player : MonoBehaviour
     public Transform followT;
     public bool isEating;
     public int score;
+
+    public int highScore {
+        get {
+            return PlayerPrefs.GetInt("ClassicHighScore", 0);
+        }
+        set {
+            PlayerPrefs.SetInt("ClassicHighScore", value);
+        }
+    }
+
     PlayerController controller;
     SphereCollider sc;
 
@@ -77,6 +87,7 @@ public class Player : MonoBehaviour
 
         f.Eat(lastBodySpawnPos.position);
         score += f.points;
+        if(score > highScore) highScore = score;
         controller.AddBody(controller.startingBody);
         currentState = States.moving;
         yield return new WaitForSeconds(0.25f);        
