@@ -20,10 +20,13 @@ public class MapGenerator : MonoBehaviour
 
     public float timeBetweenSpawns;
     public float timeBetweenSuperFoodSpawns;
-    public float nextSuperFoodTime;
+
+    float nextSuperFoodTime;
+    float superFoodDespawnTime;
+
     int numberOfActiveFood;
     int numberOfActiveSuperFood;
-    float nextSpawnTime;
+
 
     [Range(0,1)]
     public float outlinePercentage;
@@ -36,7 +39,7 @@ public class MapGenerator : MonoBehaviour
     private void Start() {
         GenerateMap();
         StartCoroutine(SpawnFood());
-        nextSuperFoodTime = Time.time + timeBetweenSuperFoodSpawns;
+        nextSuperFoodTime = nextSuperFoodTime = GetNextSuperFoodTime();
     }
 
     public void GenerateMap() {
@@ -110,10 +113,7 @@ public class MapGenerator : MonoBehaviour
 
         string holderName = "Spawned Food";
 
-        if(transform.Find(holderName))
-        {
-            Destroy(transform.Find(holderName).gameObject);
-        }
+        DespawnFood(holderName);
         
         Transform foodHolder = new GameObject(holderName).transform;
         foodHolder.parent = transform;
@@ -143,16 +143,13 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    public IEnumerator SpawnSuperFood() {
+    public void SpawnSuperFood() {
         numberOfActiveSuperFood = 0;
         foodMap = new bool[(int)currentMap.mapSize.x,(int)currentMap.mapSize.y];
 
         string holderName = "Spawned Super Food";
 
-        if(transform.Find(holderName))
-        {
-            Destroy(transform.Find(holderName).gameObject);
-        }
+        DespawnFood(holderName);
         
         Transform foodHolder = new GameObject(holderName).transform;
         foodHolder.parent = transform;
@@ -174,10 +171,10 @@ public class MapGenerator : MonoBehaviour
         foodMap[randomCoord.x, randomCoord.y] = true;
 
         numberOfActiveSuperFood++;
-
+        superFoodDespawnTime = GetNextSuperDespawnTime();
+        
         shuffledTileCoords.Enqueue(randomCoord);
 
-        yield return true;
     }
 
 
@@ -188,7 +185,6 @@ public class MapGenerator : MonoBehaviour
 
         if(numberOfActiveFood == 0)
         {
-            numberOfActiveFood = 0;
             StartCoroutine(SpawnFood());
         }
     }
@@ -198,24 +194,41 @@ public class MapGenerator : MonoBehaviour
         numberOfActiveSuperFood--;
     }
 
-float elapsedTime;
-    void Update() {
-        
-        elapsedTime += Time.deltaTime;
-        if(elapsedTime > nextSuperFoodTime)
+    void DespawnFood(string holderName) {
+        if(transform.Find(holderName))
         {
-            elapsedTime = 0;
+            Destroy(transform.Find(holderName).gameObject);
+        }
+    }
+
+    float elapsed;
+    void Update() {
+        elapsed = Time.deltaTime + elapsed;
+
+        if(elapsed > nextSuperFoodTime) {
+            elapsed = 0;
+            nextSuperFoodTime = GetNextSuperFoodTime();
+
             if(numberOfActiveSuperFood == 0) {
-                
-                numberOfActiveSuperFood = 0;
-                StartCoroutine(SpawnSuperFood());
-                nextSuperFoodTime = Time.time + timeBetweenSuperFoodSpawns;
-            }
-            else {
-                nextSuperFoodTime = Time.time + timeBetweenSuperFoodSpawns;
+                SpawnSuperFood();
             }
         }
 
+        if(elapsed > superFoodDespawnTime && numberOfActiveSuperFood > 0) {
+            elapsed = 0;
+            nextSuperFoodTime = GetNextSuperFoodTime();
+            numberOfActiveSuperFood = 0;
+            DespawnFood("Spawned Super Food");
+        }
+
+    }
+
+    float GetNextSuperFoodTime() {
+        return Time.deltaTime + UnityEngine.Random.Range(4, 10);
+    }
+
+    float GetNextSuperDespawnTime() {
+        return Time.deltaTime + UnityEngine.Random.Range(3, 9);
     }
 
     public Coord GetRandomFoodCoord() {
