@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 
     SnakeControls controls;
     
+    public GameObject hudUI;
     public GameObject pauseMenuUI;
     public static bool GamePaused = false;
 
@@ -37,12 +38,14 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void Resume() {
+        hudUI.SetActive(true);
         pauseMenuUI.SetActive(false);
         GamePaused = false;
         Time.timeScale = 1;
     }
 
     public void Pause() {
+        hudUI.SetActive(false);
         pauseMenuUI.SetActive(true);
         GamePaused = true;
         Time.timeScale = 0;
