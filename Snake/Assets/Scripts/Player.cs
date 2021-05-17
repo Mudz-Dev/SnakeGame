@@ -51,12 +51,9 @@ public class Player : MonoBehaviour
         
         //Movement Input
 
-
         if (currentState == States.idle && direction != Vector3.zero) currentState = States.moving;
 
         controller.Move(direction * speed);
-
-
 
 
     }
