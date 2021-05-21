@@ -78,11 +78,16 @@ public class PlayerController : MonoBehaviour
 
     public void Update() {
 
-
+        Vector3 rotationMask = new Vector3(0,0, 1);
         if (player.currentState != Player.States.idle)
         {
             transform.Translate(velocity * player.speed * Time.smoothDeltaTime, Space.World);
-            transform.rotation = Quaternion.LookRotation(velocity);
+
+            //transform.rotation = Quaternion.LookRotation(velocity);
+            //transform.rotation = Quaternion.LookRotation(new Vector3(velocity.x, transform.position.y, velocity.z));
+
+            Vector3 lookAtRotation = Quaternion.LookRotation(velocity - transform.position).eulerAngles;
+            transform.rotation = Quaternion.Euler(Vector3.Scale(lookAtRotation, rotationMask));
         }
     }
 

@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     PlayerController controller;
     SphereCollider sc;
     AudioSource eatAudio;
+    Animation eatAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
         sc = GetComponent<SphereCollider>();
         isEating = false;
         eatAudio = GetComponent<AudioSource>();
+        eatAnim = GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -81,6 +83,8 @@ public class Player : MonoBehaviour
         if(!eatAudio.isPlaying) {
             eatAudio.Play();
         }
+
+        eatAnim.Play();
         
         isEating = true;
         IncreaseSpeed();
