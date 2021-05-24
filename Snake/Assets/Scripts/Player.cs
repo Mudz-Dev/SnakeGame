@@ -44,7 +44,8 @@ public class Player : MonoBehaviour
         sc = GetComponent<SphereCollider>();
         isEating = false;
         eatAudio = GetComponent<AudioSource>();
-        eatAnim = GetComponent<Animation>();
+        
+        eatAnim = GetComponentInChildren<Animation>();
     }
 
     // Update is called once per frame
