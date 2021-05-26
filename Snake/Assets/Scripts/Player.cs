@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Transform followT;
     public bool isEating;
     public int score;
+    public LayerMask foodCollisionMask;
 
     public int highScore {
         get {
@@ -56,8 +57,22 @@ public class Player : MonoBehaviour
 
         if (currentState == States.idle && direction != Vector3.zero) currentState = States.moving;
 
+
         controller.Move(direction * speed);
 
+        float moveDistance = speed * Time.deltaTime;
+        CheckFoodCollision(moveDistance);
+    }
+
+    void CheckFoodCollision(float moveDistance)
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 10f, foodCollisionMask, QueryTriggerInteraction.Collide))
+        {
+            eatAnim.Play();
+        }
 
     }
 
@@ -84,9 +99,7 @@ public class Player : MonoBehaviour
         if(!eatAudio.isPlaying) {
             eatAudio.Play();
         }
-
-        eatAnim.Play();
-        
+            
         isEating = true;
         IncreaseSpeed();
         currentState = States.eating;
