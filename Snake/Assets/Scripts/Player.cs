@@ -60,20 +60,14 @@ public class Player : MonoBehaviour
 
         controller.Move(direction * speed);
 
-        float moveDistance = speed * Time.deltaTime;
-        CheckFoodCollision(moveDistance);
+ 
     }
 
-    void CheckFoodCollision(float moveDistance)
+
+
+    public void PlayEatAnimation()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 10f, foodCollisionMask, QueryTriggerInteraction.Collide))
-        {
-            eatAnim.Play();
-        }
-
+        eatAnim.Play();
     }
 
     private void OnTriggerEnter(Collider other)
