@@ -59,11 +59,19 @@ public class Player : MonoBehaviour
 
 
         controller.Move(direction * speed);
-
+        CheckFoodCollision();
  
     }
 
-
+    void CheckFoodCollision()
+    {
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 2, foodCollisionMask, QueryTriggerInteraction.Collide))
+        {
+            PlayEatAnimation();
+        }
+    }
 
     public void PlayEatAnimation()
     {
@@ -72,10 +80,11 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         switch (other.gameObject.tag)
         {
             case "Food":
-                if(!isEating) StartCoroutine(EatFood(other.gameObject));
+                if (!isEating) StartCoroutine(EatFood(other.gameObject));
                 break;
             case "Body":
                 speed = 0f;
@@ -86,6 +95,7 @@ public class Player : MonoBehaviour
                 StartCoroutine("Die");
                 break;
         }
+
     }
 
     IEnumerator EatFood(GameObject foodObject)

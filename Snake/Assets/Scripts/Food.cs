@@ -41,17 +41,6 @@ public class Food : MonoBehaviour
         transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        switch (other.gameObject.tag)
-        {
-            case "Player":
-                Player player = other.gameObject.GetComponent<Player>();
-                player.PlayEatAnimation();
-                break;
-        }
-        }
-
     public void Eat(Vector3 moveLocation)
     {
         if(foodType == FoodTypes.Normal) {
