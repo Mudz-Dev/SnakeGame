@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
     IEnumerator EatFood(GameObject foodObject)
     {
         if(!eatAudio.isPlaying) {
+            eatAudio.pitch = Random.Range(1f, 2f);
             eatAudio.Play();
         }
             
