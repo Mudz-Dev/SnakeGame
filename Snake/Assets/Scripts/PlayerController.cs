@@ -8,18 +8,24 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     public Body startingBody;
+    public float jumpForce = 7;
     Vector3 velocity;
+    public float gravity = -12;
 
     Player player;
     List<Body> bodyParts;
     SphereCollider sc;
     SnakeControls controls;
+    Rigidbody rb;
+    float velocityY;
+
 
     void Start()
     {
         player = GetComponent<Player>();
         bodyParts = new List<Body>();
-        sc = GetComponent<SphereCollider>();        
+        sc = GetComponent<SphereCollider>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Awake() {
@@ -28,6 +34,7 @@ public class PlayerController : MonoBehaviour
         controls.PlayerControls.MoveDown.performed += x => {if(player.direction.z != 1) player.direction = Vector3.back;};
         controls.PlayerControls.MoveRight.performed += x => {if(player.direction.x != -1) player.direction = Vector3.right;};
         controls.PlayerControls.MoveLeft.performed += x => {if(player.direction.x != 1) player.direction = Vector3.left;};
+        controls.PlayerControls.Jump.performed += x => { rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); };
 
         
 

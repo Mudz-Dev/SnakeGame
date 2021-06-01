@@ -57,6 +57,14 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""9da3ce1a-fa54-4020-835d-0e24aff91c3e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +166,17 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                     ""action"": ""PauseGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae990202-cd91-4abe-bd00-8ffbd938006c"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -226,6 +245,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
         m_PlayerControls_MoveLeft = m_PlayerControls.FindAction("MoveLeft", throwIfNotFound: true);
         m_PlayerControls_MoveRight = m_PlayerControls.FindAction("MoveRight", throwIfNotFound: true);
         m_PlayerControls_PauseGame = m_PlayerControls.FindAction("PauseGame", throwIfNotFound: true);
+        m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
         // DebugControls
         m_DebugControls = asset.FindActionMap("DebugControls", throwIfNotFound: true);
         m_DebugControls_AddBody = m_DebugControls.FindAction("AddBody", throwIfNotFound: true);
@@ -283,6 +303,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_MoveLeft;
     private readonly InputAction m_PlayerControls_MoveRight;
     private readonly InputAction m_PlayerControls_PauseGame;
+    private readonly InputAction m_PlayerControls_Jump;
     public struct PlayerControlsActions
     {
         private @SnakeControls m_Wrapper;
@@ -292,6 +313,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
         public InputAction @MoveLeft => m_Wrapper.m_PlayerControls_MoveLeft;
         public InputAction @MoveRight => m_Wrapper.m_PlayerControls_MoveRight;
         public InputAction @PauseGame => m_Wrapper.m_PlayerControls_PauseGame;
+        public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -316,6 +338,9 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                 @PauseGame.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPauseGame;
+                @Jump.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -335,6 +360,9 @@ public class @SnakeControls : IInputActionCollection, IDisposable
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -397,6 +425,7 @@ public class @SnakeControls : IInputActionCollection, IDisposable
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IDebugControlsActions
     {

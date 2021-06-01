@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingBody: {fileID: 1307221405100236741, guid: 1dd906bf6477b9945a59fd2823dcaa3c, type: 3}
+  jumpForce: 7
 --- !u!114 &7080169222967130018
 MonoBehaviour:
   m_ObjectHideFlags: 0
